@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".list_view.adapter.MainActivity">
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search"
+        android:layout_margin="@dimen/dp20"
+        android:padding="@dimen/dp10"/>
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/et_search"
+        android:layout_margin="@dimen/dp25"
+        android:src="@drawable/ic_select" />
+    <LinearLayout
+        android:id="@+id/ln_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/et_search"
+        android:layout_margin="@dimen/dp20">
+        <ListView
+            android:id="@+id/lv_staff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/stack_color"
+            android:dividerHeight="1dp"
+            android:listSelector="@color/stack_color" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ln_list_view"
+        android:layout_margin="20dp"
+        android:text="Thêm nhân viên"/>
+    <FrameLayout
+        android:id="@+id/ln_f_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+</RelativeLayout>
