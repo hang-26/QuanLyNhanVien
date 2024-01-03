@@ -2,9 +2,11 @@ package com.example.quanlynhanvienactivity.recycler_view
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
@@ -36,8 +38,6 @@ class RecyclerViewActivity : AppCompatActivity() {
         binding = ActivityRecyclerViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         staffList()
-//        val listAdapter = AdapterRecyclerView(staffList, object : StaffInterface{
-//        })
 
     }
     //Show list
@@ -52,9 +52,8 @@ class RecyclerViewActivity : AppCompatActivity() {
                 super.onClick(position)
                 Toast.makeText(this@RecyclerViewActivity, "Thông tin chi tiết" , Toast.LENGTH_SHORT).show()
                 detailStaff(position)
-
             }
-
+//            SetOnLongClick
             override fun onLongClick(position: Int) {
                 Toast.makeText(this@RecyclerViewActivity,"onLongClick", Toast.LENGTH_SHORT).show()
 //                var dialog = AddFragment()
@@ -62,6 +61,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             }
 
         })
+
         binding.ivBtAdd.setOnClickListener(){
             addInfor()
         }
@@ -87,7 +87,7 @@ class RecyclerViewActivity : AppCompatActivity() {
     }
 
     fun addInfor(){
-        val inflter = LayoutInflater.from(this)
+//        val inflter = LayoutInflater.from(this)
         val binding1: AddItemBinding = AddItemBinding.inflate(layoutInflater)
         val v = binding1.root
 /*set view*/
@@ -107,9 +107,17 @@ class RecyclerViewActivity : AppCompatActivity() {
             val age = useAge.text.toString()
             val address = useAddress.text.toString()
             val department = useDepartment.text.toString()
-            val status = useStatus.text.toString()
+            var status = useStatus.text.toString()
             val avt = ivAvat.setImageResource(R.drawable.ic_avt1)
-             staffList.add(StaffData(R.drawable.user, id, names, age.toInt(), address, department, status))
+            Log.d(TAG, "addInfor: $status")
+            if (status.toString().toLowerCase() == "nhân viên "){
+                staffList.add(StaffData(R.drawable.user, id, names, age.toInt(), address, department, status))
+                val avt = ivAvat.setImageResource(R.drawable.ic_avt1)
+            }
+            else {
+                staffList.add(StaffData(R.drawable.ic_avt1, id, names, age.toInt(), address, department, status))
+                Log.d(TAG, "addInfor: $status")
+            }
             listAdapter.notifyDataSetChanged()
             dialog.dismiss()
         }
@@ -121,23 +129,5 @@ class RecyclerViewActivity : AppCompatActivity() {
         addDialog.create()
         addDialog.show()
     }
-     private fun popupMenus(view: View) {
-            val popupMenu = PopupMenu(this, view)
-            popupMenu.menuInflater.inflate((R.menu.show_menu),popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.it_delete -> {
-                        Toast.makeText(this, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    R.id.it_edit -> {
-                        Toast.makeText(this, "Bạn đã lựa chọn sửa", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    else -> false
-                }
-            }
-            popupMenu.show()
-        }
 
 }

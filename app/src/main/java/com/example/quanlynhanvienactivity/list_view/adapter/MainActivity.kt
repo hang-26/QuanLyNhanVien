@@ -127,6 +127,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.it_delete -> {
                     Toast.makeText(this, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
+                    list.removeAt(position)
+                    staffAdapter.notifyDataSetChanged()
                     true
                 }
                 R.id.it_edit -> {
