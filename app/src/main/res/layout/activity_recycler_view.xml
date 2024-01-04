@@ -15,11 +15,12 @@
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:layout_margin="@dimen/dp20"
             android:padding="5dp"
             android:background="@drawable/bg_search"/>
         <ImageView
+            android:id="@+id/iv_select_tool"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

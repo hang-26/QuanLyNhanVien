@@ -1,34 +1,37 @@
 package com.example.quanlynhanvienactivity.recycler_view.adapter
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.Filter
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quanlynhanvienactivity.R
-import com.example.quanlynhanvienactivity.databinding.AddItemBinding
 import com.example.quanlynhanvienactivity.databinding.LayoutListStaffBinding
 import com.example.quanlynhanvienactivity.databinding.UpdateItemBinding
 import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 import com.example.quanlynhanvienactivity.recycler_view.StaffInterface
+import java.util.Locale
+import kotlin.math.log
 
 class AdapterRecyclerView (val c: Context, var list : List<StaffData>, val onItemClick: StaffInterface)
     :RecyclerView.Adapter<AdapterRecyclerView.StaffViewHolder>() {
+    var filteredData1: List<StaffData> = ArrayList(list)
     lateinit var binding: LayoutListStaffBinding
+
 //class View Holder
     class StaffViewHolder (binding: LayoutListStaffBinding)
         :RecyclerView.ViewHolder(binding.root){
 
         }
 
-//conCreatViewHolder
+//onCreatViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
         val view = LayoutInflater.from(parent.context)
         binding = LayoutListStaffBinding
@@ -38,7 +41,7 @@ class AdapterRecyclerView (val c: Context, var list : List<StaffData>, val onIte
     }
 //onBindViewHolder
     override fun onBindViewHolder(holder: StaffViewHolder, position: Int) {
-        val listStaff = list[position]
+        val listStaff = filteredData1[position]
         holder.itemView.apply {
             binding.rTvUserId.text = listStaff.userId
             binding.rTvUserName.text = listStaff.userName
@@ -114,12 +117,24 @@ class AdapterRecyclerView (val c: Context, var list : List<StaffData>, val onIte
     updateDialog.show()
     }
 
+//    Handle find by name
+
+    fun filter(text: String) {
+        val textSearch = text.toLowerCase()
+        if (textSearch.isEmpty()) {
+            filteredData1 = list
+        } else {
+            filteredData1 = list.filter { it.userName.toLowerCase().contains(textSearch.toLowerCase())}
+            }
+                notifyDataSetChanged()
+    }
+    
 
 
 
     //getItemCount
     override fun getItemCount(): Int {
-        return list.size
+        return filteredData1.size
     }
 }
 

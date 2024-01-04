@@ -19,7 +19,7 @@ import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 import com.example.quanlynhanvienactivity.databinding.ActivityMainBinding
 import com.example.quanlynhanvienactivity.list_view.fragment.AddFragment
 
-private const val TAG = "MainActivity"
+//const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var staffAdapter: StaffAdapter
@@ -97,16 +97,16 @@ class MainActivity : AppCompatActivity() {
 //        Search
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(TAG, "beforeEditChange")
+//                Log.d(TAG, "beforeEditChange")
             }
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(TAG, "onTextChanged: ${charSequence.toString()}")
+//                Log.d(TAG, "onTextChanged: ${charSequence.toString()}")
                 staffAdapter.filter(charSequence.toString())
             }
 
             override fun afterTextChanged(editable: Editable?) {
-                val d = Log.d(TAG, "afterTextChanged: ")
+//                val d = Log.d(TAG, "afterTextChanged: ")
                 val text = editable.toString()
                 staffAdapter.filter(text)
             }

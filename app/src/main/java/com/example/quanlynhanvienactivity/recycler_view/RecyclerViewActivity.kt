@@ -6,10 +6,14 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.SearchView
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +23,7 @@ import com.example.quanlynhanvienactivity.databinding.AddItemBinding
 import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 import com.example.quanlynhanvienactivity.list_view.fragment.AddFragment
 import com.example.quanlynhanvienactivity.recycler_view.adapter.AdapterRecyclerView
+import java.lang.Exception
 
 class RecyclerViewActivity : AppCompatActivity() {
     lateinit var binding: ActivityRecyclerViewBinding
@@ -38,8 +43,59 @@ class RecyclerViewActivity : AppCompatActivity() {
         binding = ActivityRecyclerViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         staffList()
-
+        addEvent()
     }
+    private fun addEvent() {
+
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(com.example.quanlynhanvienactivity.list_view.adapter.TAG, "beforeEditChange")
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(com.example.quanlynhanvienactivity.list_view.adapter.TAG, "onTextChanged: ${charSequence.toString()}")
+//                listAdapter.filter(charSequence.toString())
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val text = editable.toString()
+                listAdapter.filter(text)
+            }
+        })
+//        select tool
+        binding.ivSelectTool.setOnClickListener {
+//            popupMenus()
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.it_select_all -> {
+                        Toast.makeText(this, "Select All", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.it_delete -> {
+                        Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
+                        true
+                    } else -> {
+                        false
+                    }
+                }
+            }
+            popupMenu.inflate(R.menu.menu_select)
+            try {
+                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPop")
+                fieldMPopup.isAccessible = true
+                val mPopup  = fieldMPopup.get(popupMenu)
+                mPopup.javaClass
+                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                    .invoke(mPopup, true)
+            } catch (e: Exception) {
+                Log.d("Main", "Error showing menu icons.", e )
+            } finally {
+                popupMenu.show()
+            }
+        }
+    }
+
     //Show list
     fun staffList(){
         staffList.add(StaffData(R.drawable.ic_avt1,"12", "Nguyễn Anh", 21, "Hà Nội", "Kế Toán", "Chính thức"))
@@ -72,7 +128,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             false
         )
     }
-    //Add Event
+//Add Event detail staff
     fun detailStaff(i: Int){
         val intent = Intent(this, InfortationStaffActivity::class.java)
         val staffDetail = staffList[i]
@@ -87,7 +143,6 @@ class RecyclerViewActivity : AppCompatActivity() {
     }
 
     fun addInfor(){
-//        val inflter = LayoutInflater.from(this)
         val binding1: AddItemBinding = AddItemBinding.inflate(layoutInflater)
         val v = binding1.root
 /*set view*/
@@ -130,4 +185,30 @@ class RecyclerViewActivity : AppCompatActivity() {
         addDialog.show()
     }
 
+
+
+    private fun popupMenus() {
+        val popupMenu = PopupMenu(this, binding.ivSelectTool)
+        popupMenu.menuInflater.inflate(R.menu.menu_select, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.it_delete -> {
+                    Toast.makeText(this, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
+//                    listAdapter.notifyItemRemoved()
+//                    list.removeAt(position)
+//                    staffAdapter.notifyDataSetChanged()
+                    true
+                }
+                R.id.it_select_all -> {
+                    Toast.makeText(this, "Bạn đã lựa chọn taat cả", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
 }
+
+

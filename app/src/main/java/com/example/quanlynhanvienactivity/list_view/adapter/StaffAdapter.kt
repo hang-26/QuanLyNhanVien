@@ -10,7 +10,7 @@ import com.example.quanlynhanvienactivity.R
 import com.example.quanlynhanvienactivity.databinding.ListViewStaffBinding
 import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 
-private const val TAG = "StaffAdapter"
+const val TAG = "StaffAdapter"
 
 class StaffAdapter(
     val activity: Activity,
