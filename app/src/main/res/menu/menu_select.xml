@@ -5,18 +5,18 @@
    <item
        android:id="@+id/it_destroy"
        android:title=" Hủy"
-       app:showAsAction="always"
        android:icon="@drawable/ic_destroy"
+       app:showAsAction="always"
       />
     <item android:id="@+id/it_select_all"
         android:title="Tất cả "
-        app:showAsAction="always"
         android:icon="@drawable/baseline_select_all_24"
-      />
+        app:showAsAction="always"
+        />
     <item android:id="@+id/it_delete"
         android:title=" Xóa "
-        app:showAsAction="always"
         android:icon="@drawable/baseline_delete_24"
-       />
+        app:showAsAction="always"
+        />
 
 </menu>

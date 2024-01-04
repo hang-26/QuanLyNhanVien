@@ -29,15 +29,14 @@ class RecyclerViewActivity : AppCompatActivity() {
     lateinit var binding: ActivityRecyclerViewBinding
     val staffList = mutableListOf<StaffData>()
     lateinit var listAdapter: AdapterRecyclerView
-//Result API
+
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     {
         if (it.resultCode == Activity.RESULT_OK){
             val e: String? = it.data?.getStringExtra("result")
-    //            binding.editTextBeforResult.setText(e)
-
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecyclerViewBinding.inflate(layoutInflater)
@@ -45,8 +44,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         staffList()
         addEvent()
     }
-    private fun addEvent() {
-
+    fun addEvent() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
                 Log.d(com.example.quanlynhanvienactivity.list_view.adapter.TAG, "beforeEditChange")
@@ -54,7 +52,6 @@ class RecyclerViewActivity : AppCompatActivity() {
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
                 Log.d(com.example.quanlynhanvienactivity.list_view.adapter.TAG, "onTextChanged: ${charSequence.toString()}")
-//                listAdapter.filter(charSequence.toString())
             }
 
             override fun afterTextChanged(editable: Editable?) {
@@ -62,65 +59,139 @@ class RecyclerViewActivity : AppCompatActivity() {
                 listAdapter.filter(text)
             }
         })
-//        select tool
+
         binding.ivSelectTool.setOnClickListener {
-//            popupMenus()
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.it_select_all -> {
-                        Toast.makeText(this, "Select All", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    R.id.it_delete -> {
-                        Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
-                        true
-                    } else -> {
-                        false
-                    }
-                }
-            }
-            popupMenu.inflate(R.menu.menu_select)
-            try {
-                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPop")
-                fieldMPopup.isAccessible = true
-                val mPopup  = fieldMPopup.get(popupMenu)
-                mPopup.javaClass
-                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                    .invoke(mPopup, true)
-            } catch (e: Exception) {
-                Log.d("Main", "Error showing menu icons.", e )
-            } finally {
-                popupMenu.show()
-            }
+            popupMenus()
         }
     }
 
     //Show list
-    fun staffList(){
-        staffList.add(StaffData(R.drawable.ic_avt1,"12", "Nguyễn Anh", 21, "Hà Nội", "Kế Toán", "Chính thức"))
-        staffList.add(StaffData(R.drawable.ic_avt1,"13", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức"))
-        staffList.add(StaffData(R.drawable.ic_avt1,"14", "Tô Ngọc", 24, "Hà Nội", "Tester", "Chính thức"))
-        staffList.add(StaffData(R.drawable.ic_avt1,"15", "Phùng Hưng", 35, "Hà Nội", "Kế Toán", "Trưởng phòng"))
+    fun staffList() {
+        staffList.add(
+            StaffData(R.drawable.ic_avt1,
+            "12",
+            "Nguyễn Anh",
+            21,
+            "Hà Nội",
+            "Kế Toán",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "13",
+            "Nguyễn Hưng",
+            22,
+            "Hà Nội",
+            "Marketing",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "14",
+            "Tô Ngọc",
+            24,
+            "Hà Nội",
+            "Tester",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "15",
+            "Phùng Hưng",
+            35,
+            "Hà Nội",
+            "Kế Toán",
+            "Trưởng phòng"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "13",
+            "Nguyễn Hưng",
+            22,
+            "Hà Nội",
+            "Marketing",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "14",
+            "Tô Ngọc",
+            24,
+            "Hà Nội",
+            "Tester",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "15",
+            "Phùng Hưng",
+            35,
+            "Hà Nội",
+            "Kế Toán",
+            "Trưởng phòng"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "13",
+            "Nguyễn Hưng",
+            22,
+            "Hà Nội",
+            "Marketing",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "14",
+            "Tô Ngọc",
+            24,
+            "Hà Nội",
+            "Tester",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "15",
+            "Phùng Hưng",
+            35,
+            "Hà Nội",
+            "Kế Toán",
+            "Trưởng phòng"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "13",
+            "Nguyễn Hưng",
+            22,
+            "Hà Nội",
+            "Marketing",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "14",
+            "Tô Ngọc",
+            24,
+            "Hà Nội",
+            "Tester",
+            "Chính thức"))
+        staffList.add(StaffData(
+            R.drawable.ic_avt1,
+            "15",
+            "Phùng Hưng",
+            35,
+            "Hà Nội",
+            "Kế Toán",
+            "Trưởng phòng"))
+
+
         listAdapter = AdapterRecyclerView(this, staffList, object :StaffInterface{
-//            setOnClick
             override fun onClick(position: Int) {
                 super.onClick(position)
                 Toast.makeText(this@RecyclerViewActivity, "Thông tin chi tiết" , Toast.LENGTH_SHORT).show()
                 detailStaff(position)
             }
-//            SetOnLongClick
+
             override fun onLongClick(position: Int) {
                 Toast.makeText(this@RecyclerViewActivity,"onLongClick", Toast.LENGTH_SHORT).show()
-//                var dialog = AddFragment()
-//                dialog.show(supportFragmentManager,"customDialog")
             }
 
+            override fun staffShowSelected(isSelected: Boolean) {
+                TODO("Not yet implemented")
+            }
         })
-
         binding.ivBtAdd.setOnClickListener(){
             addInfor()
         }
+
         binding.rvStaff.adapter = listAdapter
         binding.rvStaff.layoutManager = LinearLayoutManager(
             this,
@@ -128,7 +199,9 @@ class RecyclerViewActivity : AppCompatActivity() {
             false
         )
     }
-//Add Event detail staff
+    /**
+     * Xem thông tin chi tiết
+     */
     fun detailStaff(i: Int){
         val intent = Intent(this, InfortationStaffActivity::class.java)
         val staffDetail = staffList[i]
@@ -144,8 +217,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
     fun addInfor(){
         val binding1: AddItemBinding = AddItemBinding.inflate(layoutInflater)
-        val v = binding1.root
-/*set view*/
+        val viewEdit = binding1.root
         val useName = binding1.etName
         val useId = binding1.etId
         val useAge = binding1.etAge
@@ -153,8 +225,8 @@ class RecyclerViewActivity : AppCompatActivity() {
         val useDepartment = binding1.etDepartment
         val useStatus = binding1.etStatus
         val ivAvat = binding1.ivAvt
-        val  addDialog = AlertDialog.Builder(this)
-        addDialog.setView(v)
+        val addDialog = AlertDialog.Builder(this)
+        addDialog.setView(viewEdit)
         addDialog.setPositiveButton("Ok"){
             dialog,_ ->
             val names = useName.text.toString()
@@ -185,30 +257,35 @@ class RecyclerViewActivity : AppCompatActivity() {
         addDialog.show()
     }
 
-
-
     private fun popupMenus() {
         val popupMenu = PopupMenu(this, binding.ivSelectTool)
-        popupMenu.menuInflater.inflate(R.menu.menu_select, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.it_delete -> {
-                    Toast.makeText(this, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
-//                    listAdapter.notifyItemRemoved()
-//                    list.removeAt(position)
-//                    staffAdapter.notifyDataSetChanged()
-                    true
-                }
+            when (it.itemId) {
                 R.id.it_select_all -> {
-                    Toast.makeText(this, "Bạn đã lựa chọn taat cả", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Select All", Toast.LENGTH_SHORT).show()
                     true
                 }
-                else -> false
+                R.id.it_delete -> {
+                    Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
+
+                    true
+                } else -> false
             }
         }
-        popupMenu.show()
+        popupMenu.inflate(R.menu.menu_select)
+        try {
+            val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+            fieldMPopup.isAccessible = true
+            val mPopup  = fieldMPopup.get(popupMenu)
+            mPopup.javaClass
+                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(mPopup, true)
+        } catch (e: Exception) {
+            Log.d("Main", "Error showing menu icons")
+        } finally {
+            popupMenu.show()
+        }
     }
-
 }
 
 

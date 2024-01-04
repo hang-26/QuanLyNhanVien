@@ -19,4 +19,10 @@ class StaffData {
         this.department = department
         this.status = status
     }
+
+    override fun toString(): String {
+        return "StaffData(userName='$userName')"
+    }
+
+
 }

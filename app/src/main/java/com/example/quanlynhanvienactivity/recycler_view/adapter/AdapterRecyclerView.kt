@@ -1,14 +1,11 @@
 package com.example.quanlynhanvienactivity.recycler_view.adapter
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -17,64 +14,74 @@ import com.example.quanlynhanvienactivity.databinding.LayoutListStaffBinding
 import com.example.quanlynhanvienactivity.databinding.UpdateItemBinding
 import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 import com.example.quanlynhanvienactivity.recycler_view.StaffInterface
-import java.util.Locale
-import kotlin.math.log
 
-class AdapterRecyclerView (val c: Context, var list : List<StaffData>, val onItemClick: StaffInterface)
-    :RecyclerView.Adapter<AdapterRecyclerView.StaffViewHolder>() {
-    var filteredData1: List<StaffData> = ArrayList(list)
+private const val TAG = "AdapterRecyclerView"
+class AdapterRecyclerView (
+    val context: Context,
+    var list : List<StaffData>,
+    val onItemClick: StaffInterface): RecyclerView.Adapter<AdapterRecyclerView.StaffViewHolder>() {
+
+    var filteredData1 = list.toMutableList()
+    var isEnable = false
     lateinit var binding: LayoutListStaffBinding
 
-//class View Holder
-    class StaffViewHolder (binding: LayoutListStaffBinding)
-        :RecyclerView.ViewHolder(binding.root){
-
-        }
-
-//onCreatViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
+    Log.d(TAG, "onCreateViewHolder: ${filteredData1.size}")
         val view = LayoutInflater.from(parent.context)
-        binding = LayoutListStaffBinding
-            .inflate(view, parent, false)
+        binding = LayoutListStaffBinding.inflate(view, parent, false)
         return StaffViewHolder( binding )
 
     }
-//onBindViewHolder
+
     override fun onBindViewHolder(holder: StaffViewHolder, position: Int) {
-        val listStaff = filteredData1[position]
-        holder.itemView.apply {
+
+        val listStaff = filteredData1[holder.bindingAdapterPosition]
+
+        val binding = holder.binding
+
             binding.rTvUserId.text = listStaff.userId
             binding.rTvUserName.text = listStaff.userName
             binding.tvUserDepartment.text = listStaff.department
             binding.rTvUserStatus.text = listStaff.status
             binding.rIvAvatar.setImageResource(listStaff.imageAvatar)
-            //setItem Click
+            binding.cbCheckBox.visibility = View.GONE
 
-        }
-//  Set item click
+        //setOnClick
         holder.itemView.setOnClickListener {
-            onItemClick.onClick(position)
+            onItemClick.onClick(holder.bindingAdapterPosition)
         }
-//      SetOnLongClick
+
+        //setOnLongClick
        holder.itemView.setOnLongClickListener() {
-           popupMenus(it, position)
+           popupMenus(it, holder.bindingAdapterPosition)
            true
        }
-
+//        // selected
+//        holder.itemView.setOnClickListener {
+//            selectItem(holder, listStaff, holder.bindingAdapterPosition)
+//        }
     }
-//    popupMenus
-    fun popupMenus(view: View, position: Int){
-        val popupMenu = PopupMenu(c.applicationContext, view)
+
+
+    override fun getItemCount(): Int {
+        Log.d(TAG, "getItemCount: ")
+        return filteredData1.size
+    }
+
+    fun popupMenus(view: View, position: Int) {
+        val popupMenu = PopupMenu(context.applicationContext, view)
         popupMenu.menuInflater.inflate((R.menu.show_menu),popupMenu.menu)
         popupMenu.setOnMenuItemClickListener {
             when(it.itemId){
-//                Xóa dữ liệu
+                //Xóa dữ liệu
                 R.id.it_delete -> {
-                    Toast.makeText(c.applicationContext, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context.applicationContext, "Bạn đã lựa chọn xóa", Toast.LENGTH_SHORT).show()
+                    filteredData1.removeAt(position)
                     notifyItemRemoved(position)
                     true
                 }
-//                Chỉnh sủa dữ liệu
+
+                // Cập nhật dữ liệu
                 R.id.it_edit -> {
                     updateData(position)
                     true
@@ -82,60 +89,67 @@ class AdapterRecyclerView (val c: Context, var list : List<StaffData>, val onIte
                 else -> false
             }
         }
+
         popupMenu.show()
-        val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-        popup.isAccessible = true
-        val menu = popup.get(popupMenu)
-        menu.javaClass.getDeclaredMethod("setForceShowIcon" ,Boolean::class.java)
-            .invoke(menu, true)
+
     }
-//    update data
-    fun updateData(position: Int){
-    Toast.makeText(c.applicationContext, "Bạn đã lựa chọn sửa", Toast.LENGTH_SHORT).show()
+
+    /**
+     * Hàm cập nhật
+     */
+    fun updateData(position: Int) {
+    Toast.makeText(context.applicationContext, "Bạn đã lựa chọn sửa", Toast.LENGTH_SHORT).show()
     val bindingUpdate: UpdateItemBinding
-    bindingUpdate = UpdateItemBinding.inflate(LayoutInflater.from(c),null,false)
+    bindingUpdate = UpdateItemBinding.inflate(LayoutInflater.from(context),null,false)
     val viewItem = bindingUpdate.root
     val age = bindingUpdate.etAge
     val status = bindingUpdate.etStatus
-    val updateDialog = AlertDialog.Builder(c)
-        updateDialog.setView(viewItem)
-        updateDialog.setPositiveButton("Ok"){
+    val updateDialog = AlertDialog.Builder(context)
+        .setView(viewItem)
+    updateDialog.setPositiveButton("Ok") {
             dialog,_->
-            val update = list[position]
-            update.age = age.text.toString().toInt()
-            update.status = status.text.toString()
-            update.imageAvatar = R.drawable.user
-            notifyItemChanged(position)
-            dialog.dismiss()
+                val update = list[position]
+                update.age = age.text.toString().toInt()
+                update.status = status.text.toString()
+                update.imageAvatar = R.drawable.user
+                notifyItemChanged(position)
+                dialog.dismiss()
         }
-    updateDialog.setNegativeButton("Cancel"){
+    updateDialog.setNegativeButton("Cancel") {
             dialog,_->
-            dialog.dismiss()
-            Toast.makeText(c, "Cancel", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+                Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show()
         }
     updateDialog.create()
     updateDialog.show()
     }
 
-//    Handle find by name
-
+    /**
+     * Hàm xử lý tìm kiếm
+     */
     fun filter(text: String) {
         val textSearch = text.toLowerCase()
+        Log.d("filter", "filter1: $textSearch")
         if (textSearch.isEmpty()) {
-            filteredData1 = list
+            filteredData1 = list.toMutableList()
         } else {
-            filteredData1 = list.filter { it.userName.toLowerCase().contains(textSearch.toLowerCase())}
-            }
-                notifyDataSetChanged()
+            filteredData1 = list.filter {
+                it.userName.toLowerCase().contains(textSearch.toLowerCase())
+            }.toMutableList()
+        }
+        notifyDataSetChanged()
     }
-    
 
+    private fun selectItem(holder: AdapterRecyclerView.StaffViewHolder, listStaff: StaffData, bindingAdapterPosition: Int) {
+        isEnable = true
+//        filteredData1.toMutableList().add(StaffData(bindingAdapterPosition))
+    }
 
-
-    //getItemCount
-    override fun getItemCount(): Int {
-        return filteredData1.size
+    class StaffViewHolder (val binding: LayoutListStaffBinding)
+        :RecyclerView.ViewHolder(binding.root){
     }
 }
+
+
 
 

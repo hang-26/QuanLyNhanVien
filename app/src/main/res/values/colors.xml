@@ -5,4 +5,5 @@
     <color name="background_color">#68AFE8</color>
     <color name="stack_color">#82E4F1</color>
     <color name="tool_color">#3C9740</color>
+    <color name="selected_color">#63C367</color>
 </resources>
