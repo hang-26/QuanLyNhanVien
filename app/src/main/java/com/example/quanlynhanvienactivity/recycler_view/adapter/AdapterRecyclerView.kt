@@ -14,6 +14,7 @@ import com.example.quanlynhanvienactivity.databinding.LayoutListStaffBinding
 import com.example.quanlynhanvienactivity.databinding.UpdateItemBinding
 import com.example.quanlynhanvienactivity.list_view.adapter.data.StaffData
 import com.example.quanlynhanvienactivity.recycler_view.StaffInterface
+import java.lang.Exception
 
 private const val TAG = "AdapterRecyclerView"
 class AdapterRecyclerView (
@@ -23,6 +24,10 @@ class AdapterRecyclerView (
 
     var filteredData1 = list.toMutableList()
     var isEnable = false
+    var isSelect = false
+    var listSected: MutableList<StaffData> = mutableListOf()
+
+    var count: Int = 0
     lateinit var binding: LayoutListStaffBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
@@ -41,11 +46,47 @@ class AdapterRecyclerView (
 
             binding.rTvUserId.text = listStaff.userId
             binding.rTvUserName.text = listStaff.userName
-            binding.tvUserDepartment.text = listStaff.department
+            binding.rTvUserDepartment.text = listStaff.department
             binding.rTvUserStatus.text = listStaff.status
             binding.rIvAvatar.setImageResource(listStaff.imageAvatar)
-            binding.cbCheckBox.visibility = View.GONE
+        when (binding.rTvUserDepartment.text.toString()) {
+            "Dev" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_dev)
+            }
+            "Tester" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_tester)
+            }
+            "Design" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_design)
+            }
+            "Marketing" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_marketing)
+            }
+        }
 
+        when (binding.rTvUserStatus.text.toString()) {
+            "Chính thức" -> {
+                binding.ivIcStatus.setImageResource(R.drawable.ic_intent)
+            }
+            "Thực tập" -> {
+                binding.ivIcStatus.setImageResource(R.drawable.ic_staff)
+            }
+        }
+        Log.d("CheckBox", "onBindViewHolder: ${binding.cbCheckBox.isChecked}")
+        if (isEnable == false) {
+            binding.cbCheckBox.visibility = View.GONE
+        }
+
+        if (isEnable == true) {
+            binding.cbCheckBox.visibility = View.VISIBLE
+            binding.cbCheckBox.isChecked = isSelect
+            binding.cbCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    filteredData1[holder.bindingAdapterPosition].isChecked = true
+                }
+            }
+
+        }
         //setOnClick
         holder.itemView.setOnClickListener {
             onItemClick.onClick(holder.bindingAdapterPosition)
@@ -56,10 +97,7 @@ class AdapterRecyclerView (
            popupMenus(it, holder.bindingAdapterPosition)
            true
        }
-//        // selected
-//        holder.itemView.setOnClickListener {
-//            selectItem(holder, listStaff, holder.bindingAdapterPosition)
-//        }
+
     }
 
 
@@ -69,6 +107,7 @@ class AdapterRecyclerView (
     }
 
     fun popupMenus(view: View, position: Int) {
+
         val popupMenu = PopupMenu(context.applicationContext, view)
         popupMenu.menuInflater.inflate((R.menu.show_menu),popupMenu.menu)
         popupMenu.setOnMenuItemClickListener {
@@ -89,7 +128,6 @@ class AdapterRecyclerView (
                 else -> false
             }
         }
-
         popupMenu.show()
 
     }
@@ -129,7 +167,6 @@ class AdapterRecyclerView (
      */
     fun filter(text: String) {
         val textSearch = text.toLowerCase()
-        Log.d("filter", "filter1: $textSearch")
         if (textSearch.isEmpty()) {
             filteredData1 = list.toMutableList()
         } else {
@@ -140,9 +177,24 @@ class AdapterRecyclerView (
         notifyDataSetChanged()
     }
 
-    private fun selectItem(holder: AdapterRecyclerView.StaffViewHolder, listStaff: StaffData, bindingAdapterPosition: Int) {
-        isEnable = true
-//        filteredData1.toMutableList().add(StaffData(bindingAdapterPosition))
+//   fun deleteSelect () {
+//       filteredData1 = (filteredData1 + listSected).distinct().
+//       filter { it !in filteredData1 || it !in listSected}. toMutableList()
+//       notifyDataSetChanged()
+//   }
+
+    fun setAllChecked (checked: Boolean) {
+        isSelect = checked
+        filteredData1.forEach {
+            it.isChecked = isSelect
+        }
+        notifyDataSetChanged()
+    }
+
+    fun deleteSelectedItems() {
+
+        filteredData1.removeIf { it.isChecked == true }
+        notifyDataSetChanged()
     }
 
     class StaffViewHolder (val binding: LayoutListStaffBinding)

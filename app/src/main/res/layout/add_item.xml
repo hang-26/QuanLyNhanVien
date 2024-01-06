@@ -26,39 +26,45 @@
         android:src="@drawable/user"/>
     <EditText
         android:id="@+id/et_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_avt"
-        android:hint="@string/nhap_ten"/>
+        android:layout_marginHorizontal="16dp"
+        android:hint="Mã nhân viên"/>
     <EditText
         android:id="@+id/et_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_id"
+        android:layout_marginHorizontal="16dp"
         android:hint="@string/nhap_ten"/>
     <EditText
         android:id="@+id/et_age"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_name"
+        android:layout_marginHorizontal="16dp"
         android:hint="Độ tuổi"/>
     <EditText
         android:id="@+id/et_address"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_age"
+        android:layout_marginHorizontal="16dp"
         android:hint="Địa chỉ"/>
     <EditText
         android:id="@+id/et_department"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_address"
+        android:layout_marginHorizontal="16dp"
         android:hint="Bộ phận"/>
     <EditText
         android:id="@+id/et_status"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_department"
-        android:hint="Chức vụ"/>
+        android:layout_marginHorizontal="16dp"
+        android:hint="Trạng thái"/>
 
 </RelativeLayout>

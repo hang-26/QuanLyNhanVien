@@ -27,7 +27,7 @@ import java.lang.Exception
 
 class RecyclerViewActivity : AppCompatActivity() {
     lateinit var binding: ActivityRecyclerViewBinding
-    val staffList = mutableListOf<StaffData>()
+    var staffList = mutableListOf<StaffData>()
     lateinit var listAdapter: AdapterRecyclerView
 
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
@@ -60,137 +60,63 @@ class RecyclerViewActivity : AppCompatActivity() {
             }
         })
 
+        binding.ivBtAdd.setOnClickListener(){
+            addInfor()
+        }
+
         binding.ivSelectTool.setOnClickListener {
-            popupMenus()
+            binding.lnNavbarTool.visibility = View.VISIBLE
+            binding.lnTool.visibility = View.GONE
+            listAdapter.isEnable = !listAdapter.isEnable
+            listAdapter.notifyDataSetChanged()
+        }
+
+        binding.ivCancel.setOnClickListener {
+            binding.lnNavbarTool.visibility = View.GONE
+            binding.lnTool.visibility = View.VISIBLE
+            listAdapter.isEnable = !listAdapter.isEnable
+            listAdapter.notifyDataSetChanged()
+        }
+
+        binding.ivIcDelete.setOnClickListener {
+//            deleteSelect ()
+            listAdapter.deleteSelectedItems()
+        }
+
+        binding.ivIcSelect.setOnClickListener {
+            listAdapter.setAllChecked(!listAdapter.isSelect)
         }
     }
 
     //Show list
     fun staffList() {
-        staffList.add(
-            StaffData(R.drawable.ic_avt1,
-            "12",
-            "Nguyễn Anh",
-            21,
-            "Hà Nội",
-            "Kế Toán",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "13",
-            "Nguyễn Hưng",
-            22,
-            "Hà Nội",
-            "Marketing",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "14",
-            "Tô Ngọc",
-            24,
-            "Hà Nội",
-            "Tester",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "15",
-            "Phùng Hưng",
-            35,
-            "Hà Nội",
-            "Kế Toán",
-            "Trưởng phòng"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "13",
-            "Nguyễn Hưng",
-            22,
-            "Hà Nội",
-            "Marketing",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "14",
-            "Tô Ngọc",
-            24,
-            "Hà Nội",
-            "Tester",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "15",
-            "Phùng Hưng",
-            35,
-            "Hà Nội",
-            "Kế Toán",
-            "Trưởng phòng"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "13",
-            "Nguyễn Hưng",
-            22,
-            "Hà Nội",
-            "Marketing",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "14",
-            "Tô Ngọc",
-            24,
-            "Hà Nội",
-            "Tester",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "15",
-            "Phùng Hưng",
-            35,
-            "Hà Nội",
-            "Kế Toán",
-            "Trưởng phòng"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "13",
-            "Nguyễn Hưng",
-            22,
-            "Hà Nội",
-            "Marketing",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "14",
-            "Tô Ngọc",
-            24,
-            "Hà Nội",
-            "Tester",
-            "Chính thức"))
-        staffList.add(StaffData(
-            R.drawable.ic_avt1,
-            "15",
-            "Phùng Hưng",
-            35,
-            "Hà Nội",
-            "Kế Toán",
-            "Trưởng phòng"))
+        staffList.add(StaffData(R.drawable.ic_avt1, "12", "Nguyễn Anh", 21, "Hà Nội", "Dev", "Chính thức", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "13", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "14", "Tô Ngọc", 24, "Hà Nội", "Tester", "Thực tập", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "15", "Phùng Hưng", 35, "Hà Nội", "Design", "Thực thập", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "16", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "17", "Tô Ngọc", 24, "Hà Nội", "Tester", "Chính thức", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "18", "Phùng Hưng", 35, "Hà Nội", "Design", "Thực tập", false))
+        staffList.add(StaffData(R.drawable.ic_avt1, "19", "Nguyễn Hưng", 22, "Hà Nội", "Dev", "Chính thức", false))
+
 
 
         listAdapter = AdapterRecyclerView(this, staffList, object :StaffInterface{
             override fun onClick(position: Int) {
                 super.onClick(position)
-                Toast.makeText(this@RecyclerViewActivity, "Thông tin chi tiết" , Toast.LENGTH_SHORT).show()
                 detailStaff(position)
             }
 
             override fun onLongClick(position: Int) {
                 Toast.makeText(this@RecyclerViewActivity,"onLongClick", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun staffShowSelected(isSelected: Boolean) {
-                TODO("Not yet implemented")
+
             }
         })
-        binding.ivBtAdd.setOnClickListener(){
-            addInfor()
-        }
+
 
         binding.rvStaff.adapter = listAdapter
         binding.rvStaff.layoutManager = LinearLayoutManager(
@@ -212,6 +138,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         intent.putExtra("department", staffDetail.department)
         intent.putExtra("status", staffDetail.status)
         intent.putExtra("image", staffDetail.imageAvatar)
+
         startForResult.launch(intent)
     }
 
@@ -238,11 +165,11 @@ class RecyclerViewActivity : AppCompatActivity() {
             val avt = ivAvat.setImageResource(R.drawable.ic_avt1)
             Log.d(TAG, "addInfor: $status")
             if (status.toString().toLowerCase() == "nhân viên "){
-                staffList.add(StaffData(R.drawable.user, id, names, age.toInt(), address, department, status))
+                staffList.add(StaffData(R.drawable.user, id, names, age.toInt(), address, department, status, false))
                 val avt = ivAvat.setImageResource(R.drawable.ic_avt1)
             }
             else {
-                staffList.add(StaffData(R.drawable.ic_avt1, id, names, age.toInt(), address, department, status))
+                staffList.add(StaffData(R.drawable.ic_avt1, id, names, age.toInt(), address, department, status, false))
                 Log.d(TAG, "addInfor: $status")
             }
             listAdapter.notifyDataSetChanged()
@@ -257,35 +184,12 @@ class RecyclerViewActivity : AppCompatActivity() {
         addDialog.show()
     }
 
-    private fun popupMenus() {
-        val popupMenu = PopupMenu(this, binding.ivSelectTool)
-        popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.it_select_all -> {
-                    Toast.makeText(this, "Select All", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.it_delete -> {
-                    Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
-
-                    true
-                } else -> false
-            }
-        }
-        popupMenu.inflate(R.menu.menu_select)
-        try {
-            val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-            fieldMPopup.isAccessible = true
-            val mPopup  = fieldMPopup.get(popupMenu)
-            mPopup.javaClass
-                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                .invoke(mPopup, true)
-        } catch (e: Exception) {
-            Log.d("Main", "Error showing menu icons")
-        } finally {
-            popupMenu.show()
-        }
+    fun deleteSelectedItems() {
+        val listRemovePositon = listAdapter.filteredData1
+        listRemovePositon.removeIf { it.isChecked == true }
+        listAdapter.notifyDataSetChanged()
     }
+
 }
 
 

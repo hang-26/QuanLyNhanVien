@@ -46,13 +46,15 @@ class MainActivity : AppCompatActivity() {
 
     //Staff List
     fun createStaffList(){
-        list.add(StaffData(R.drawable.ic_avt1,"12", "Nguyễn Anh", 21, "Hà Nội", "Kế Toán", "Chính thức"))
-        list.add(StaffData(R.drawable.ic_avt1,"13", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức"))
-        list.add(StaffData(R.drawable.ic_avt1,"14", "Tô Ngọc", 24, "Hà Nội", "Tester", "Chính thức"))
-        list.add(StaffData(R.drawable.ic_avt1,"15", "Phùng Hưng", 35, "Hà Nội", "Kế Toán", "Trưởng phòng"))
-        list.add(StaffData(R.drawable.ic_avt1,"16", "Phùng Hưng", 35, "Hà Nội", "Kế Toán", "Trưởng phòng"))
-        list.add(StaffData(R.drawable.ic_avt1,"17", "Phùng Hưng", 35, "Hà Nội", "Kế Toán", "Trưởng phòng"))
-        list.add(StaffData(R.drawable.ic_avt1,"18", "Phùng Hưng", 35, "Hà Nội", "Kế Toán", "Trưởng phòng"))
+        list.add(StaffData(R.drawable.ic_avt1, "12", "Nguyễn Anh", 21, "Hà Nội", "Dev", "Chính thức", false))
+        list.add(StaffData(R.drawable.ic_avt1, "13", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức", false))
+        list.add(StaffData(R.drawable.ic_avt1, "14", "Tô Ngọc", 24, "Hà Nội", "Tester", "Thực tập", false))
+        list.add(StaffData(R.drawable.ic_avt1, "15", "Phùng Hưng", 35, "Hà Nội", "Design", "Thực thập", false))
+        list.add(StaffData(R.drawable.ic_avt1, "16", "Nguyễn Hưng", 22, "Hà Nội", "Marketing", "Chính thức", false))
+        list.add(StaffData(R.drawable.ic_avt1, "17", "Tô Ngọc", 24, "Hà Nội", "Tester", "Chính thức", false))
+        list.add(StaffData(R.drawable.ic_avt1, "18", "Phùng Hưng", 35, "Hà Nội", "Design", "Thực tập", false))
+        list.add(StaffData(R.drawable.ic_avt1, "19", "Nguyễn Hưng", 22, "Hà Nội", "Dev", "Chính thức", false))
+
         staffAdapter = StaffAdapter(this, list)
         val listStaff = binding.lvStaff
         listStaff.adapter = staffAdapter
@@ -154,7 +156,7 @@ class MainActivity : AppCompatActivity() {
             && department_new != null && status_new != null){
             list.add(
                 StaffData(image_avt_new, id_new, name_new, age_new, address_new,
-                    department_new, status_new)
+                    department_new, status_new, false)
             )
             Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show()
         }

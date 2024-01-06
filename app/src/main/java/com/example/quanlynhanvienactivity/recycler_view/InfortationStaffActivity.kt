@@ -26,5 +26,28 @@ class InfortationStaffActivity : AppCompatActivity() {
         binding.tvStaffDepartment.text = department
         binding.tvStaffStatus.text = status
         binding.ivAvatar.setImageResource(image)
+        when (binding.tvStaffDepartment.text.toString()) {
+            "Dev" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_dev)
+            }
+            "Tester" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_tester)
+            }
+            "Design" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_design)
+            }
+            "Marketing" -> {
+                binding.ivIcDepartment.setImageResource(R.drawable.ic_marketing)
+            }
+        }
+
+        when (binding.tvStaffStatus.text.toString()) {
+            "Chính thức" -> {
+                binding.ivIcStatus.setImageResource(R.drawable.ic_intent)
+            }
+            "Thực tập" -> {
+                binding.ivIcStatus.setImageResource(R.drawable.ic_staff)
+            }
+        }
     }
 }

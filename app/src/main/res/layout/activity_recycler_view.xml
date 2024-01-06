@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/selected_color"
     tools:context=".recycler_view.RecyclerViewActivity">
+
     <LinearLayout
         android:id="@+id/ln_tool"
         android:layout_width="match_parent"
@@ -28,17 +30,69 @@
             android:layout_marginTop="@dimen/dp20"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ln_navbar_tool"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ln_tool"
+        android:layout_margin="@dimen/dp20"
+        android:padding="@dimen/dp8"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:background="@color/tool_color"
+       >
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_destroy"/>
+        <TextView
+            android:id="@+id/tv_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:text="Selected"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/tv_number_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:text="0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:id="@+id/iv_ic_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:src="@drawable/baseline_delete_24"
+            />
+        <ImageView
+            android:id="@+id/iv_ic_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp10"
+            android:src="@drawable/baseline_select_all_24"/>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_staff"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_below="@+id/ln_tool"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ln_navbar_tool"
+        android:layout_above="@+id/iv_bt_add"
         android:layout_margin="@dimen/dp10"/>
     <ImageView
         android:id="@+id/iv_bt_add"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@+id/rv_staff"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp10"
+        android:paddingBottom="@dimen/dp8"
         android:src="@drawable/ic_add"/>
 
 
